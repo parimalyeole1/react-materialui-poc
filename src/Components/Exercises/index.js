@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Grid, Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core';
 
-
 const style = {
     Paper: {
         padding: 20,
