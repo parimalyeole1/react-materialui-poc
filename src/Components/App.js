@@ -3,6 +3,7 @@ import { Header, Footer } from './Layouts'
 import Exercises from './Exercises'
 import { muscles, exercises } from './../store'
 
+//Note: somethisn
 class App extends Component {
   state = {
     exercises,
