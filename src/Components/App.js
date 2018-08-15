@@ -3,7 +3,6 @@ import { Header, Footer } from './Layouts'
 import Exercises from './Exercises'
 import { muscles, exercises } from './../store'
 
-
 class App extends Component {
   state = {
     exercises,
@@ -20,6 +19,7 @@ class App extends Component {
       return acc;
     }, {}))
   }
+
   handleCategorySelection = (category) => {
     this.setState({
       category
@@ -31,6 +31,7 @@ class App extends Component {
       exercise: exercises.find(x => x.id === id)
     }))
   }
+
   render() {
     const exercises = this.getExercisesByMuscles(),
       { category, exercise } = this.state;
@@ -52,5 +53,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
