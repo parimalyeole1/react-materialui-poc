@@ -15,27 +15,42 @@ const style = {
     }
 }
 
-export default ({ exercises }) =>
+export default ({
+    exercises,
+    category,
+    onSelect,
+    exercise: {
+        id,
+        title = 'Welcome!',
+        description = 'Please select an excercise from the list on left.'
+    }
+}) =>
     <Grid container spacing={8}>
         <Grid item xs sm>
             <Paper style={style.Paper}>
                 {exercises.map(([group, exercises]) => (
-                    <Fragment key={group}>
-                        <Typography
-                            variant="headline"
-                            style={{ textTransform: 'capitalize' }}
-                        >
-                            {group}
-                        </Typography>
-                        <List component="ul">
-                            {exercises.map(({ title }) => (
-                                <ListItem button key={title}>
-                                    <ListItemText primary={title} />
-                                </ListItem>
-                            ))}
+                    !category || category === group
+                        ? < Fragment key={group} >
+                            <Typography
+                                variant="headline"
+                                style={{ textTransform: 'capitalize' }}
+                            >
+                                {group}
+                            </Typography>
+                            <List component="ul">
+                                {exercises.map(({ id, title }) => (
+                                    <ListItem
+                                        button
+                                        key={id}
+                                        onClick={() => onSelect(id)}
+                                    >
+                                        <ListItemText primary={title} />
+                                    </ListItem>
+                                ))}
 
-                        </List>
-                    </Fragment>
+                            </List>
+                        </Fragment>
+                        : null
                 ))}
             </Paper>
         </Grid>
@@ -44,13 +59,13 @@ export default ({ exercises }) =>
                 <Typography
                     variant="display1"
                 >
-                    Welcome!
+                    {title}
                 </Typography>
                 <Typography
                     variant="subheading"
                     style={{ marginTop: 20 }}
                 >
-                    Please select an excercise from the list on left.
+                    {description}
                 </Typography>
             </Paper>
         </Grid>
