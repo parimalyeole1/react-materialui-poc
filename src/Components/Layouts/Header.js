@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import CreateDialog from './../Dialogs/create'
 
 
 export default props =>
@@ -8,9 +9,9 @@ export default props =>
             {/* <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                 <MenuIcon />
             </IconButton> */}
-            <Typography variant="title" color="inherit" >
+            <Typography variant="title" color="inherit" style={{ flex: 1 }}>
                 Excercises download
             </Typography>
-            {/* <Button color="inherit">Login</Button> */}
+            <CreateDialog />
         </Toolbar>
     </AppBar>   
