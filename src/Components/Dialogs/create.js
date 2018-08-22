@@ -6,22 +6,65 @@ import {
     DialogContentText,
     TextField,
     DialogActions,
-    Button
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    withStyles
+
 } from '@material-ui/core';
 
 import { Add } from '@material-ui/icons';
+import shortid from 'shortid';
 
-export default class CreateDialog extends Component {
+const styles = theme => ({
+    formControl: {
+        width: 500
+    }
+});
+
+class CreateDialog extends Component {
     state = {
-        open: false
+        open: false,
+        exercise: {
+            id: "",
+            title: "",
+            description: "",
+            muscles: ""
+        }
     }
     handleToggle = () => {
         this.setState(({ open }) => ({
             open: !open
         }))
     }
+    handleChange = key => ({ target: { value } }) => {
+        this.setState(({ exercise }) => ({
+            exercise: {
+                ...exercise,
+                [key]: value
+            }
+        }))
+    }
+    handleSubmit = () => {
+        // TODO: validatoin
+        const { exercise } = this.state;
+        const newExercise = { ...exercise, id: shortid.generate() }
+        this.props.onCreate(newExercise)
+        this.setState({
+            open: false,
+            exercise: {
+                id: "",
+                title: "",
+                description: "",
+                muscles: ""
+            }
+        })
+    }
     render() {
-        const { open } = this.state
+        const { open, exercise: { title, description, muscles } } = this.state
+        const { classes, muscles: categoroies } = this.props
         return (
             <Fragment>
                 <Button
@@ -43,19 +86,54 @@ export default class CreateDialog extends Component {
                             Please fill out form below.
                     </DialogContentText>
                         <form>
+                            <TextField
+                                autoFocus
+                                label="Title"
+                                value={title}
+                                margin="normal"
+                                onChange={this.handleChange('title')}
+                                className={classes.formControl}
+                            />
+                            <br />
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="muscles">
+                                    Muscles
+                                </InputLabel>
+                                <Select
+                                    value={muscles}
+                                    onChange={this.handleChange('muscles')}
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {categoroies.map(catogory =>
+                                        <MenuItem
+                                            key={catogory}
+                                            value={catogory}>
+                                            {catogory}
+                                        </MenuItem>
+                                    )}
 
+                                </Select>
+                            </FormControl>
+                            <br />
+                            <TextField
+                                label="Description"
+                                multiline
+                                rows={4}
+                                value={description}
+                                margin="normal"
+                                onChange={this.handleChange('description')}
+                                className={classes.formControl}
+                            />
                         </form>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Email Address"
-                            type="email"
-                            fullWidth
-                        />
                     </DialogContent>
                     <DialogActions>
-                        <Button color="primary" variant="raised">
+                        <Button
+                            color="primary"
+                            variant="raised"
+                            onClick={this.handleSubmit}
+                        >
                             Create
                         </Button>
                     </DialogActions>
@@ -64,3 +142,5 @@ export default class CreateDialog extends Component {
         )
     }
 }
+
+export default withStyles(styles)(CreateDialog);
